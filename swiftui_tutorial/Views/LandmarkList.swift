@@ -8,24 +8,30 @@
 import SwiftUI
 
 enum Food: String, CaseIterable, Identifiable {
-    case sushi
-    case pasuta
-    case curry
+    case sushi = "すし"
+    case pasuta = "パスタ"
+    case curry = "カレー"
     
     var id: String { self.rawValue }
 }
 
 struct LandmarkList: View {
-    @State private var foodIndex = Food.sushi
-    
+    @State private var selectedFood = Food.sushi
     var body: some View {
-        Picker("Food", selection: $foodIndex) {
-            ForEach(Food.allCases) { food in
-                Text(food.rawValue.capitalized)
-                    .tag(food)
+        VStack {
+            Picker("Food", selection: $selectedFood) {
+                ForEach(Food.allCases) { food in
+                    Text(food.rawValue.capitalized)
+                        .tag(food)
+                }
+                
+            let _ = print(selectedFood)
             }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            Text("選択中のメニュー: ")
+            Text(selectedFood.rawValue)
         }
-        .pickerStyle(SegmentedPickerStyle())
     }
 }
 
