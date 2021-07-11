@@ -7,16 +7,25 @@
 
 import SwiftUI
 
+enum Food: String, CaseIterable, Identifiable {
+    case sushi
+    case pasuta
+    case curry
+    
+    var id: String { self.rawValue }
+}
+
 struct LandmarkList: View {
+    @State private var foodIndex = Food.sushi
+    
     var body: some View {
-        NavigationView{
-            List(landmarks) { landmark in
-                NavigationLink(destination: LandmarkDetail(landmark: landmark)) {
-                    LandmarkRow(landmark: landmark)
-                }
+        Picker("Food", selection: $foodIndex) {
+            ForEach(Food.allCases) { food in
+                Text(food.rawValue.capitalized)
+                    .tag(food)
             }
-            .navigationTitle("Landmarks")
         }
+        .pickerStyle(SegmentedPickerStyle())
     }
 }
 
